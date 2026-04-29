@@ -21,19 +21,19 @@ cp .env.example .env
 npm run start:dev
 ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at `http://localhost:3000/api`
 
 ## API Endpoints
 
 ### Patterns
-- `GET /patterns` - List patterns
-- `GET /patterns/search?q=keyword` - Search patterns
-- `GET /patterns/:id` - Get pattern details
+- `GET /api/patterns` - List patterns
+- `GET /api/patterns/search?q=keyword` - Search patterns
+- `GET /api/patterns/:id` - Get pattern details
 
 ### Yarns
-- `GET /yarns` - List yarns
-- `GET /yarns/search?q=keyword` - Search yarns
-- `GET /yarns/:id` - Get yarn details
+- `GET /api/yarns` - List yarns
+- `GET /api/yarns/search?q=keyword` - Search yarns
+- `GET /api/yarns/:id` - Get yarn details
 
 ### Authentication
-- `POST /auth/login` - User login
+- `POST /api/auth/login` - User login

@@ -1,0 +1,13 @@
+@if (patterns$ | async; as patterns) {
+<section class="pattern-list">
+    @for (pattern of patterns; track pattern.id) {
+    <div class="pattern-card" [routerLink]="['/patterns', pattern.id]">
+        <app-card [name]="pattern.name" [designer]="pattern.designer.name"
+            [imageUrl]="pattern.first_photo?.small_url"></app-card>
+
+    </div>
+    }
+</section>
+} @else {
+<p>Loading patterns...</p>
+}

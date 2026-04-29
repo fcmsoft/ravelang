@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { RavelryPatternsResponse } from '../../shared/models/raverly';
+import { RavelryPatternResponse, RavelryPatternsResponse } from '../../shared/models/raverly';
 import { HttpClient, httpResource } from '@angular/common/http';
-import { map } from 'rxjs';
+import { catchError, map } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +23,22 @@ export class Patterns {
     getPatterns() {
         return this.http.get<RavelryPatternsResponse>(this.apiBaseUrl).pipe(
             map(response => response.patterns)
+        );
+    }
+
+    search(term: string) {
+        return this.http.get<RavelryPatternsResponse>(`${this.apiBaseUrl}/search`, { params: { q: term } }).pipe(
+            map(response => response.patterns)
+        );
+    }
+
+    getDetails(id: number) {
+        return this.http.get<RavelryPatternResponse>(`${this.apiBaseUrl}/${id}`).pipe(
+            map(response => response.pattern), // Assuming the API returns a single pattern in an array
+            catchError(error => {
+                console.error('Error fetching pattern details:', error);
+                throw 'Something went wrong while fetching pattern details'; // Rethrow the error to be handled by the component
+            })
         );
     }
 }

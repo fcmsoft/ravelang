@@ -1,5 +1,9 @@
 {
     "chat.tools.terminal.autoApprove": {
         "ng": true
+    },
+    "[html]": {
+        "editor.defaultFormatter": "Angular.ng-template",
+        "editor.tabSize": 4
     }
 }

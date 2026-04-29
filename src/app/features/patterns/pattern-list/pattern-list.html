@@ -1,4 +1,8 @@
 @if (patterns$ | async; as patterns) {
+<section class="search-container">
+    <input type="search" class="search-input" placeholder="Search patterns by name or designer..."
+        [value]="searchTerm()" (input)="onSearchChange($event)">
+</section>
 <section class="pattern-list">
     @for (pattern of patterns; track pattern.id) {
     <div class="pattern-card" [routerLink]="['/patterns', pattern.id]">
@@ -6,6 +10,8 @@
             [imageUrl]="pattern.first_photo?.small_url"></app-card>
 
     </div>
+    } @empty {
+    <p class="no-results">No patterns found matching your search.</p>
     }
 </section>
 } @else {

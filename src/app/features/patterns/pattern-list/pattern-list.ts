@@ -1,10 +1,12 @@
-import { Component, effect, inject } from '@angular/core';
-import { Patterns } from '../patterns';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { RavelryPattern } from '../../../shared/models/raverly';
 import { AsyncPipe } from '@angular/common';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+
+import { Patterns } from '../patterns';
 import { Card } from '../../../shared/components/card/card';
+
 
 
 @Component({
@@ -14,12 +16,18 @@ import { Card } from '../../../shared/components/card/card';
   styleUrl: './pattern-list.css',
 })
 export class PatternList {
-  readonly patternsService = inject(Patterns);
-  patterns$!: Observable<RavelryPattern[]>;
+  protected readonly patternsService = inject(Patterns);
 
-  constructor() {
-    effect(() => {
-      this.patterns$ = this.patternsService.getPatterns();
-    });
+  protected readonly searchTerm = signal('');
+
+  patterns$ = toObservable(this.searchTerm).pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    switchMap(term => this.patternsService.search(term))
+  );
+
+  protected onSearchChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchTerm.set(input.value);
   }
 }

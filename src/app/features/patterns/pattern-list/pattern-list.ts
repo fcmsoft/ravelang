@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -14,6 +14,7 @@ import { Card } from '../../../shared/components/card/card';
   imports: [RouterLink, AsyncPipe, Card],
   templateUrl: './pattern-list.html',
   styleUrl: './pattern-list.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PatternList {
   protected readonly patternsService = inject(Patterns);

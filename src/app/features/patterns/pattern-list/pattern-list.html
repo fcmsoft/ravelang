@@ -5,11 +5,11 @@
 </section>
 <section class="pattern-list">
     @for (pattern of patterns; track pattern.id) {
-    <div class="pattern-card" [routerLink]="['/patterns', pattern.id]">
+    <a class="pattern-card" [routerLink]="['/patterns', pattern.id]">
         <app-card [name]="pattern.name" [designer]="pattern.designer.name"
             [imageUrl]="pattern.first_photo?.small_url"></app-card>
 
-    </div>
+    </a>
     } @empty {
     <p class="no-results">No patterns found matching your search.</p>
     }

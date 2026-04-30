@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Patterns } from '../patterns';
 import { catchError, of, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   imports: [],
   templateUrl: './pattern-details.html',
   styleUrl: './pattern-details.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PatternDetails {
   protected readonly patternsService = inject(Patterns);
@@ -40,10 +41,8 @@ export class PatternDetails {
   });
 
   constructor() {
-    this.activatedRoute.paramMap.subscribe(() => {
-      this._step.set(0);
-      this.errorMessage.set('');
-    });
+    this._step.set(0);
+    this.errorMessage.set('');
   }
 
   nextPhoto() {

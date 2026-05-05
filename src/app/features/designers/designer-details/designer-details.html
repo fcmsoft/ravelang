@@ -1,0 +1,43 @@
+@if (designer(); as designer) {
+<section class="designer-details">
+    <div class="designer-header">
+     
+        <div class="designer-info">
+            <h1>{{ designer.name }}</h1>
+            @if (designer.patterns_count != null) {
+            <p class="designer-stat">{{ designer.patterns_count }} patterns</p>
+            }
+            @if (designer.favorites_count != null) {
+            <p class="designer-stat">{{ designer.favorites_count }} favorites</p>
+            }
+            @if (designer.notes) {
+            <p class="designer-notes">{{ designer.notes }}</p>
+            }
+        </div>
+    </div>
+
+    @if (designer.patterns && designer.patterns.length > 0) {
+    <div class="designer-patterns">
+        <h2>Patterns</h2>
+        <div class="patterns-grid">
+            @for (pattern of designer.patterns; track pattern.id) {
+            <a class="pattern-card" [routerLink]="['/patterns', pattern.id]">
+                @if (pattern.first_photo?.small_url) {
+                <img [src]="pattern.first_photo!.small_url" [alt]="pattern.name" class="pattern-thumb">
+                } @else {
+                <div class="pattern-thumb-placeholder"></div>
+                }
+                <span class="pattern-name">{{ pattern.name }}</span>
+            </a>
+            }
+        </div>
+    </div>
+    }
+</section>
+} @else {
+    @if (errorMessage() !== '') {
+        <p class="error-message">{{ errorMessage() }}</p>
+    } @else {
+        <p>Loading designer details...</p>
+    }
+}

@@ -13,11 +13,12 @@ export class PatternsService {
         });
     }
 
-    async searchPatterns(query: string, page: number = 1) {
+    async searchPatterns(query: string, page: number = 1, sort?: string) {
         return this.ravelryApi.get('/patterns/search.json', {
             query,
             page,
             page_size: 20,
+            ...(sort && { sort }),
         });
     }
 

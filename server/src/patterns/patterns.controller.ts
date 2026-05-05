@@ -14,8 +14,12 @@ export class PatternsController {
     }
 
     @Get('search')
-    async searchPatterns(@Query('q') query: string, @Query('page') page?: number) {
-        return this.patternsService.searchPatterns(query, page);
+    async searchPatterns(
+        @Query('q') query: string,
+        @Query('page') page?: number,
+        @Query('sort') sort?: string,
+    ) {
+        return this.patternsService.searchPatterns(query, page, sort);
     }
 
     @Get(':id')

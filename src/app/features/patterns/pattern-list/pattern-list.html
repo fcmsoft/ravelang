@@ -1,19 +1,56 @@
-@if (patterns$ | async; as patterns) {
-<section class="search-container">
-    <input type="search" class="search-input" placeholder="Search patterns by name or designer..."
-        [value]="searchTerm()" (input)="onSearchChange($event)">
+<section id="search-container">
+    <form [formGroup]="searchForm" class="search-container">
+        <mat-form-field>
+            <mat-label>Sort by</mat-label>
+            <mat-select id="sortBy" formControlName="sortBy">
+                <mat-option value="recently-popular">Hot right now</mat-option>
+                <mat-option value="created">New to Ravelry</mat-option>
+                <mat-option value="projects">Most projects</mat-option>
+                <mat-option value="popularity">Most popular</mat-option>
+                <mat-option value="favorites">Most favorites</mat-option>
+                <mat-option value="rating">Rating</mat-option>
+                <mat-option value="difficulty">Difficulty</mat-option>
+                <mat-option value="name">Name</mat-option>
+                <mat-option value="date">Publication date</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="search-input">
+            <mat-label>Search patterns by name or designer</mat-label>
+            <input matInput type="search" formControlName="searchTerm" placeholder="Search patterns by name or designer...">
+        </mat-form-field>
+    </form>
 </section>
-<section class="pattern-list">
-    @for (pattern of patterns; track pattern.id) {
-    <a class="pattern-card" [routerLink]="['/patterns', pattern.id]">
-        <app-card [name]="pattern.name" [designer]="pattern.designer.name"
-            [imageUrl]="pattern.first_photo?.small_url"></app-card>
 
-    </a>
-    } @empty {
-    <p class="no-results">No patterns found matching your search.</p>
+@if (initialLoadComplete()) {
+    <section class="pattern-list">
+        @for (pattern of allPatterns(); track pattern.id) {
+            <a class="pattern-card" [routerLink]="['/patterns', pattern.id]">
+                <app-card [name]="pattern.name" [designer]="pattern.designer.name"
+                    [imageUrl]="pattern.first_photo?.small_url"></app-card>
+            </a>
+        } @empty {
+            <p class="no-results">No patterns found matching your search.</p>
+        }
+    </section>
+
+    @if (isLoading() && allPatterns().length > 0) {
+        <div class="loading-more">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Loading more patterns...</p>
+        </div>
     }
-</section>
+
+    @if (!hasMore() && !isLoading() && allPatterns().length > 0) {
+        <div class="end-message">
+            <p>You've reached the end! No more patterns to load.</p>
+        </div>
+    }
+
+    <!-- Sentinel element for Intersection Observer -->
+    <div #sentinel class="sentinel"></div>
 } @else {
-<p>Loading patterns...</p>
+    <div class="initial-loading">
+        <mat-spinner diameter="60"></mat-spinner>
+        <p>Loading patterns...</p>
+    </div>
 }

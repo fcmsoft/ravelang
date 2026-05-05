@@ -1,1 +1,42 @@
-<p>yarn-list works!</p>
+<section id="search-container">
+    <form [formGroup]="searchForm" class="search-container">
+        <mat-form-field class="search-input">
+            <mat-label>Search yarns by name or company</mat-label>
+            <input matInput type="search" formControlName="searchTerm" placeholder="Search yarns by name or company...">
+        </mat-form-field>
+    </form>
+</section>
+
+@if (initialLoadComplete()) {
+    <section class="yarn-list">
+        @for (yarn of allYarns(); track yarn.id) {
+            <a class="yarn-card" [routerLink]="['/yarns', yarn.id]">
+                <app-card [name]="yarn.name" [designer]="yarn.yarn_company?.name || 'Unknown Company'"
+                    [imageUrl]="yarn.first_photo?.small_url"></app-card>
+            </a>
+        } @empty {
+            <p class="no-results">No yarns found matching your search.</p>
+        }
+    </section>
+
+    @if (isLoading() && allYarns().length > 0) {
+        <div class="loading-more">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Loading more yarns...</p>
+        </div>
+    }
+
+    @if (!hasMore() && !isLoading() && allYarns().length > 0) {
+        <div class="end-message">
+            <p>You've reached the end! No more yarns to load.</p>
+        </div>
+    }
+
+    <!-- Sentinel element for Intersection Observer -->
+    <div #sentinel class="sentinel"></div>
+} @else {
+    <div class="initial-loading">
+        <mat-spinner diameter="60"></mat-spinner>
+        <p>Loading yarns...</p>
+    </div>
+}

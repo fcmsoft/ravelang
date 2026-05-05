@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { Patterns } from '../patterns';
 import { catchError, of, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pattern-details',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './pattern-details.html',
   styleUrl: './pattern-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,10 +15,10 @@ export class PatternDetails {
   protected readonly patternsService = inject(Patterns);
   private readonly activatedRoute = inject(ActivatedRoute);
 
-  readonly errorMessage = signal('');
+  protected readonly errorMessage = signal('');
   private readonly _step = signal(0);
 
-  readonly pattern = toSignal(
+  protected readonly pattern = toSignal(
     this.activatedRoute.paramMap.pipe(
       switchMap(params =>
         this.patternsService.getDetails(+(params.get('id') ?? 0)).pipe(
@@ -32,9 +32,9 @@ export class PatternDetails {
     { initialValue: null }
   );
 
-  readonly photos = computed(() => this.pattern()?.photos ?? []);
+  protected readonly photos = computed(() => this.pattern()?.photos ?? []);
 
-  readonly currentPhotoIndex = computed(() => {
+  protected readonly currentPhotoIndex = computed(() => {
     const count = this.photos().length;
     if (count === 0) return 0;
     return ((this._step() % count) + count) % count;

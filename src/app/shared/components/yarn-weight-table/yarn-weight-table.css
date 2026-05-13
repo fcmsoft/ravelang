@@ -1,0 +1,15 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.error {
+  color: var(--mat-sys-error);
+  text-align: center;
+  padding: 1rem;
+}
+
+.yarn-weight-table {
+  width: 100%;
+}

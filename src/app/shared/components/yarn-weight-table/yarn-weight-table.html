@@ -1,0 +1,37 @@
+
+  <table mat-table [dataSource]="yarnWeights" class="yarn-weight-table mat-elevation-z1">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Weight</th>
+      <td mat-cell *matCellDef="let w">{{ w.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ply">
+      <th mat-header-cell *matHeaderCellDef>Ply (UK, NZ, AU)</th>
+      <td mat-cell *matCellDef="let w">{{ w.ply }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="wpi">
+      <th mat-header-cell *matHeaderCellDef>Wraps Per Inch</th>
+      <td mat-cell *matCellDef="let w">{{ w.wpi }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="knit_gauge">
+      <th mat-header-cell *matHeaderCellDef>Knit Gauge (4 in/ 10 cm)</th>
+      <td mat-cell *matCellDef="let w">{{ w.knit_gauge ?? '—' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="yarnstandard">
+      <th mat-header-cell *matHeaderCellDef>Yarn Standard</th>
+      <td mat-cell *matCellDef="let w">{{ w.yarnstandard ?? '—' }}</td>
+    </ng-container>
+<!-- 
+    <ng-container matColumnDef="crochet_gauge">
+      <th mat-header-cell *matHeaderCellDef>Crochet Gauge</th>
+      <td mat-cell *matCellDef="let w">{{ w.crochet_gauge ?? '—' }}</td>
+    </ng-container> -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+

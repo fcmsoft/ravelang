@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { RavelryYarnsResponse, RavelryYarnResponse } from '../../shared/models/raverly';
+import { RavelryYarnsResponse, RavelryYarnResponse, RavelryYarnWeight } from '../../shared/models/raverly';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs';
 
@@ -40,6 +40,16 @@ export class Yarns {
       catchError((error) => {
         console.error('Error fetching yarn details:', error);
         throw 'Something went wrong while fetching yarn details';
+      }),
+    );
+  }
+
+  getYarnWeights() {
+    return this.http.get<RavelryYarnWeight[]>(`${this.apiBaseUrl}/weights`).pipe(
+      map((response) => response),
+      catchError((error) => {
+        console.error('Error fetching yarn weights:', error);
+        throw 'Something went wrong while fetching yarn weights';
       }),
     );
   }

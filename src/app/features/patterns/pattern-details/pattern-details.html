@@ -1,30 +1,44 @@
 @if (pattern(); as pattern) {
 <section class="pattern-details">
-    @if (photos().length > 0) {
-        <div class="carousel">
-            <button class="carousel-btn carousel-btn--prev" (click)="prevPhoto()">&#8249;</button>
-            <img
-                class="carousel-image"
-                [src]="photos()[currentPhotoIndex()].medium2_url"
-                [alt]="pattern.name"
-            />
-            <button class="carousel-btn carousel-btn--next" (click)="nextPhoto()">&#8250;</button>
-            @if (photos().length > 1) {
-                <div class="carousel-dots">
-                    @for (photo of photos(); track photo.id; let i = $index) {
-                        <button
-                            class="carousel-dot"
-                            [class.carousel-dot--active]="i === currentPhotoIndex()"
-                            (click)="goToPhoto(i)"
-                        ></button>
-                    }
-                </div>
-            }
-        </div>
-    }
+    <app-carousel 
+        [items]="photos()" 
+        [altText]="pattern.name"
+    />
     <div class="pattern-details-info">
         <h1>{{ pattern.name }}</h1>
-        <p>Designed by <a class="pattern-designer"  [routerLink]="['/designers', pattern.pattern_author.id]">{{ pattern.pattern_author.name }}</a></p>
+        <h3>Designed by <a class="pattern-designer"  [routerLink]="['/designers', pattern.pattern_author.id]">{{ pattern.pattern_author.name }}</a> - Published on {{ pattern.published | date }}</h3>
+        
+        <mat-chip-set role="list">
+            @for (attribute of pattern.pattern_attributes; track attribute.id) {
+                <mat-chip role="listitem">{{ attribute.permalink }}</mat-chip>
+            }
+        </mat-chip-set>
+        <app-badge-group label="Craft and Type">
+            <app-badge [variant]="craftVariantColor()">{{ pattern.craft.name }}</app-badge>
+        </app-badge-group>
+        <app-badge-group label="Category">
+            @for (category of pattern.pattern_categories; track category.id) {
+                <app-badge [variant]="craftVariantColor()">{{ category.name }}</app-badge>
+            }
+        </app-badge-group>
+        <app-badge-group label="Yarn weight">
+            <app-badge [variant]="craftVariantColor()">{{ pattern.yarn_weight_description }}</app-badge>
+            <button class="hint-button" (click)="openYarnWeightDialog()" aria-label="View yarn weight reference table">?</button>
+        </app-badge-group>
+        <app-badge-group label="Suggested Yarns">
+            @for (pack of pattern.packs; track pack.yarn_id) {
+                <app-badge [variant]="craftVariantColor()">
+                    <a [routerLink]="['/yarns', pack.yarn_id]">{{ pack.yarn_name }}</a>
+                </app-badge>
+            }
+        </app-badge-group> 
+
+        <p>{{ pattern.favorites_count }} favorites</p>
+        <p>{{ pattern.projects_count }} projects</p>
+        🧶
+Yarn weight
+
+DK / 8 ply
     </div>
 </section>
 } @else {

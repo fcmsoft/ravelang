@@ -48,3 +48,19 @@
   font-size: 1rem;
   font-weight: bold;
 }
+
+@media (max-width: 480px) {
+  .card {
+    width: 160px;
+  }
+
+  .card-image,
+  .card-image-placeholder {
+    width: 160px;
+    height: 160px;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+}

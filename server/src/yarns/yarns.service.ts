@@ -24,4 +24,8 @@ export class YarnsService {
     async getYarn(id: string) {
         return this.ravelryApi.get(`/yarns/${id}.json`);
     }
+
+    async getYarnWeights() {
+        return this.ravelryApi.get('/yarn_weights.json');
+    }
 }

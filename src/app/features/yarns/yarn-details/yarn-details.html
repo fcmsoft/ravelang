@@ -1,1 +1,20 @@
-<p>yarn-details works!</p>
+@if (yarn(); as yarn) {
+<section class="yarn-details">
+    <app-carousel 
+        [items]="photos()" 
+        [altText]="yarn.name"
+    />
+    <div class="yarn-details-info">
+        <h1>{{ yarn.name }}</h1>
+       
+      
+     
+    </div>
+</section>
+} @else {
+    @if (errorMessage() !== '') {
+        <p class="error-message">{{ errorMessage() }}</p>
+    } @else {
+        <p>Loading yarn details...</p>
+    }
+}

@@ -18,6 +18,11 @@ export class YarnsController {
         return this.yarnsService.searchYarns(query, page);
     }
 
+    @Get('weights')
+    async getYarnWeights() {
+        return this.yarnsService.getYarnWeights();
+    }
+
     @Get(':id')
     async getYarn(@Param('id') id: string) {
         return this.yarnsService.getYarn(id);

@@ -61,6 +61,8 @@ export interface RavelryPattern {
   gauge_divisor?: number;
   gauge_pattern?: string;
   sizes_available?: string;
+  favorites_count?: number;
+  projects_count?: number;
   product_id?: number;
   currency?: string;
   price?: string;
@@ -91,13 +93,22 @@ export interface RavelryPattern {
     id: number;
     permalink: string;
   }>;
-  yarn_weight?: {
-    id: number;
-    name: string;
-    min_gauge: number;
-    max_gauge: number;
-  };
+  yarn_weight: RavelryYarnWeight;
+  yarn_weight_description: string;
   personal_attributes?: any;
+  packs?: Array<{
+    yarn_id: number;
+    yarn: RavelryYarnLink;
+    yarn_name: string;
+  }>;
+}
+
+export interface RavelryYarnLink {
+  id: number;
+  name: string;
+  permalink: string;
+  yarn_company_id: number;
+  yarn_company_name: string;
 }
 
 export interface RavelryYarn {
@@ -108,14 +119,7 @@ export interface RavelryYarn {
     id: number;
     name: string;
   };
-  yarn_weight: {
-    id: number;
-    name: string;
-    ply: string;
-    wpi: number;
-    min_gauge: number;
-    max_gauge: number;
-  };
+  yarn_weight: RavelryYarnWeight;
   yarn_fibers: Array<{
     id: number;
     fiber_type: {
@@ -177,6 +181,17 @@ export interface RavelryYarn {
     };
     photos?: RavelryPhoto[];
   }>;
+}
+
+export interface RavelryYarnWeight {
+  id: number;
+  name: string;
+  ply: string;
+  wpi: number;
+  min_gauge: number;
+  max_gauge: number;
+  knit_gauge?: number;
+  crochet_gauge?: number;
 }
 
 export interface RavelryDesigner {
@@ -279,6 +294,10 @@ export interface RavelryDesignersResponse {
 
 export interface RavelryDesignerResponse {
   pattern_author: RavelryDesignerDetails;
+}
+
+export interface RavelryYarnWeightsResponse {
+  yarn_weights: RavelryYarnWeight[];
 }
 
 // Search Parameters

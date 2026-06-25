@@ -6,27 +6,26 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class RavelryApiService {
     private readonly apiUrl: string;
-    private readonly username: string;
-    private readonly password: string;
+    private readonly accessKey: string;
+    private readonly secretKey: string;
 
     constructor(
         private readonly configService: ConfigService,
         private readonly httpService: HttpService,
     ) {
         this.apiUrl = this.configService.get('RAVELRY_API_URL');
-        this.username = this.configService.get('RAVELRY_USERNAME');
-        this.password = this.configService.get('RAVELRY_PASSWORD');
+        this.accessKey = this.configService.get('RAVELRY_ACCESS_KEY');
+        this.secretKey = this.configService.get('RAVELRY_SECRET_KEY');
     }
 
-    async get(endpoint: string, params?: any) {
+    async get(endpoint: string, params?: any, accessToken?: string) {
         try {
             const response = await firstValueFrom(
                 this.httpService.get(`${this.apiUrl}${endpoint}`, {
                     params,
-                    auth: {
-                        username: this.username,
-                        password: this.password,
-                    },
+                    ...(accessToken
+                        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+                        : { auth: { username: this.accessKey, password: this.secretKey } }),
                 }),
             );
             return response.data;
@@ -36,14 +35,13 @@ export class RavelryApiService {
         }
     }
 
-    async post(endpoint: string, data: any) {
+    async post(endpoint: string, data: any, accessToken?: string) {
         try {
             const response = await firstValueFrom(
                 this.httpService.post(`${this.apiUrl}${endpoint}`, data, {
-                    auth: {
-                        username: this.username,
-                        password: this.password,
-                    },
+                    ...(accessToken
+                        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+                        : { auth: { username: this.accessKey, password: this.secretKey } }),
                 }),
             );
             return response.data;

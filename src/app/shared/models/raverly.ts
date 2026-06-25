@@ -9,6 +9,7 @@ export interface RavelryUser {
   small_photo_url?: string;
   large_photo_url?: string;
   photo_url?: string;
+  about_me_html?: string;
 }
 
 export interface RavelryPatternAuthor {
@@ -60,6 +61,13 @@ export interface RavelryPattern {
   gauge?: number;
   gauge_divisor?: number;
   gauge_pattern?: string;
+  gauge_description?: string;
+  yardage_description?: string;
+  languages?: Array<{
+    id: number;
+    name: string;
+    permalink: string;
+  }>;
   sizes_available?: string;
   favorites_count?: number;
   projects_count?: number;
@@ -101,6 +109,8 @@ export interface RavelryPattern {
     yarn: RavelryYarnLink;
     yarn_name: string;
   }>;
+  notes?: string;
+  notes_html?: string;
 }
 
 export interface RavelryYarnLink {
@@ -131,6 +141,7 @@ export interface RavelryYarn {
     percentage: number;
   }>;
   texture?: string;
+  origin?: string;
   yardage?: number;
   yardage_description?: string;
   meters?: number;
@@ -164,8 +175,14 @@ export interface RavelryYarn {
   gauge?: number;
   gauge_divisor?: number;
   machine_washable?: boolean;
+  yarn_attributes?: Array<{
+    id: number;
+    permalink: string;
+  }>;
   milling?: string;
   dye?: string;
+  notes?: string;
+  notes_html?: string;
   photos?: RavelryPhoto[];
   first_photo?: RavelryPhoto;
   rating_average?: number;
@@ -180,6 +197,11 @@ export interface RavelryYarn {
       permalink: string;
     };
     photos?: RavelryPhoto[];
+  }>;
+  yarn_provenance?: Array<{
+    id: number;
+    country_name: string;
+    phase_name: string;
   }>;
 }
 
@@ -199,7 +221,10 @@ export interface RavelryDesigner {
   name: string;
   permalink: string;
   notes?: string;
+  notes_html?: string;
   patterns_count?: number;
+  crochet_pattern_count?: number;
+  knitting_pattern_count?: number;
   favorites_count?: number;
   users: Array<RavelryUser>;
 }

@@ -2,6 +2,7 @@
   display: flex;
   gap: 2rem;
   padding: 2rem;
+  flex-wrap: wrap;
 }
 
 app-carousel {
@@ -9,10 +10,36 @@ app-carousel {
   flex-shrink: 0;
 }
 
+.pattern-details-info {
+  flex: 1;
+}
+.pattern-details-notes {
+  flex-grow: 2;
+}
+
 .pattern-details-info h1 {
   margin-top: 0;
 }
 
+.details-container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  width: 100%;
+}
+.details-container .column {
+  width: 45%;
+}
+
+@media (max-width: 1024px) {
+  .details-container {
+    display: flex;
+    flex-flow: column wrap;
+  }
+  .details-container .column {
+    width: 100%;
+  }
+}
 @media (max-width: 768px) {
   .pattern-details {
     flex-direction: column;

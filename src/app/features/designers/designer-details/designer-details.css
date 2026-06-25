@@ -35,18 +35,21 @@
 
 .designer-info {
     h1 {
-        margin: 0 0 0.5rem;
+        margin: 0 0 1rem;
     }
 }
 
-.designer-stat {
-    color: #666;
-    margin: 0.25rem 0;
-    font-size: 0.95rem;
+.designer-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
-.designer-notes {
+.designer-notes,
+.designer-about {
     margin-top: 1rem;
+    margin-bottom: 1.5rem;
     color: #444;
     line-height: 1.6;
 }

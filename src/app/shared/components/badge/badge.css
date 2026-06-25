@@ -27,3 +27,6 @@
   background-color: #e6f1fb;
   color: #0c447c;
 }
+:host {
+  height: 27px;
+}

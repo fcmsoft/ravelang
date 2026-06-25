@@ -4,10 +4,11 @@ import { catchError, of, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { Designers } from '../designers';
+import { Badge } from '../../../shared/components/badge/badge';
 
 @Component({
   selector: 'app-designer-details',
-  imports: [RouterLink],
+  imports: [RouterLink, Badge],
   templateUrl: './designer-details.html',
   styleUrl: './designer-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

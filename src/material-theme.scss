@@ -36,3 +36,13 @@ body {
   margin: 0;
   height: 100%;
 }
+
+:root {
+  @include mat.chips-overrides(
+    (
+      container-shape-radius: 16px,
+      label-text-size: var(--mat-sys-label-medium-size),
+      container-height: 24px,
+    )
+  );
+}

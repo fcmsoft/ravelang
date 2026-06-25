@@ -1,16 +1,140 @@
 @if (yarn(); as yarn) {
-<section class="yarn-details">
-    <app-carousel 
-        [items]="photos()" 
+<main class="yarn-details" data-testid="yarn-details-page">
+    <app-carousel
+        [items]="photos()"
         [altText]="yarn.name"
     />
-    <div class="yarn-details-info">
-        <h1>{{ yarn.name }}</h1>
-       
-      
-     
-    </div>
-</section>
+    <section class="yarn-details-info">
+        <h1 data-testid="yarn-details-title">{{ yarn.name }}</h1>
+        <h3 data-testid="yarn-details-company">By {{ yarn.yarn_company.name }}</h3>
+
+        @if (yarn.yarn_attributes?.length) {
+            <mat-chip-set role="list">
+                @for (attribute of yarn.yarn_attributes!; track attribute.id) {
+                    <mat-chip role="listitem">{{ attribute.permalink }}</mat-chip>
+                }
+            </mat-chip-set>
+        }
+
+        <div class="details-container">
+            <div class="column">
+                <app-badge-group label="Weight">
+                    <app-badge variant="purple">
+                        {{ yarn.yarn_weight.name }}
+                        <button class="hint-button" (click)="openYarnWeightDialog()" aria-label="View yarn weight reference table" data-testid="yarn-weight-hint-button">?</button>
+                    </app-badge>
+                </app-badge-group>
+
+                <app-badge-group label="Fiber">
+                    @for (fiber of yarn.yarn_fibers; track fiber.id) {
+                        <app-badge variant="purple">{{ fiber.percentage }}% {{ fiber.fiber_type.name }}</app-badge>
+                    }
+                </app-badge-group>
+
+                @if (yarn.yarn_provenance?.length) {
+                    <app-badge-group label="Origin">
+                        @for ((origin of yarn.yarn_provenance); track origin.id) {
+                            <app-badge variant="purple">{{ origin.country_name }} ({{ origin.phase_name }})</app-badge>
+                        }
+                    </app-badge-group>
+                }
+
+                @if (yarn.texture) {
+                    <app-badge-group label="Texture">
+                        <app-badge variant="purple">{{ yarn.texture }}</app-badge>
+                    </app-badge-group>
+                }
+
+                @if (yarn.machine_washable !== undefined && yarn.machine_washable !== null) {
+                    <app-badge-group label="Machine washable">
+                        <app-badge variant="purple">{{ yarn.machine_washable ? 'Yes' : 'No' }}</app-badge>
+                    </app-badge-group>
+                }
+
+                @if (yarn.discontinued) {
+                    <app-badge-group label="Status">
+                        <app-badge variant="purple">Discontinued</app-badge>
+                    </app-badge-group>
+                }
+            </div>
+
+            <div class="column">
+                @if (yarn.grams || yarn.ounces) {
+                    <app-badge-group label="Unit weight">
+                        @if (yarn.grams) {
+                            <app-badge variant="purple">{{ yarn.grams }}g</app-badge>
+                        }
+                        @if (yarn.ounces) {
+                            <app-badge variant="purple">{{ yarn.ounces }} oz</app-badge>
+                        }
+                    </app-badge-group>
+                }
+
+                @if (yarn.yardage || yarn.meters) {
+                    <app-badge-group label="Length per skein">
+                        @if (yarn.yardage) {
+                            <app-badge variant="purple">{{ yarn.yardage }} yds</app-badge>
+                        }
+                        @if (yarn.meters) {
+                            <app-badge variant="purple">{{ yarn.meters }} m</app-badge>
+                        }
+                    </app-badge-group>
+                }
+
+                @if (yarn.yarn_weight.wpi) {
+                    <app-badge-group label="Wraps per inch">
+                        <app-badge variant="purple">{{ yarn.yarn_weight.wpi }}</app-badge>
+                    </app-badge-group>
+                }
+
+                @if (yarn.min_gauge || yarn.max_gauge) {
+                    <app-badge-group label="Gauge">
+                        <app-badge variant="purple">{{ yarn.min_gauge }}–{{ yarn.max_gauge }} sts per 4 in / 10 cm</app-badge>
+                    </app-badge-group>
+                }
+
+                @if (yarn.min_needle_size || yarn.max_needle_size) {
+                    <app-badge-group label="Needle Size">
+                        @if (yarn.min_needle_size) {
+                            <app-badge variant="purple">{{ yarn.min_needle_size.name }}</app-badge>
+                        }
+                        @if (yarn.max_needle_size && yarn.max_needle_size.id !== yarn.min_needle_size?.id) {
+                            <app-badge variant="purple">{{ yarn.max_needle_size.name }}</app-badge>
+                        }
+                    </app-badge-group>
+                }
+
+                @if (yarn.rating_average) {
+                    <app-badge-group label="Rating">
+                        <app-badge variant="purple">{{ yarn.rating_average | number:'1.1-1' }} / 5 ({{ yarn.rating_count }} reviews)</app-badge>
+                    </app-badge-group>
+                }
+            </div>
+        </div>
+
+        @if (yarn.yarn_colorways?.length) {
+            <section class="colorways" data-testid="yarn-colorways-section">
+                <h3>Colorways</h3>
+                <div class="colorways-grid" data-testid="yarn-colorways-grid">
+                    @for (colorway of yarn.yarn_colorways!; track colorway.id) {
+                        <div class="colorway" [attr.data-testid]="'yarn-colorway-' + colorway.id">
+                            @if (colorway.photos?.[0]) {
+                                <img [src]="colorway.photos![0].square_url" [alt]="colorway.name" />
+                            }
+                            <span>{{ colorway.name }}</span>
+                        </div>
+                    }
+                </div>
+            </section>
+        }
+    </section>
+
+    @if (yarn.notes_html) {
+        <section class="yarn-notes" data-testid="yarn-details-notes">
+            <div [innerHTML]="yarn.notes_html"></div>
+        </section>
+    }
+</main>
 } @else {
     @if (errorMessage() !== '') {
         <p class="error-message">{{ errorMessage() }}</p>

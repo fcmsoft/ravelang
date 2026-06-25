@@ -1,15 +1,22 @@
-<header class="app-header">
+<header class="app-header" data-testid="app-header">
     <nav class="nav-container">
-        <a routerLink="/" class="logo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/" class="logo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-testid="nav-logo">
             Raverlang
         </a>
         <div class="nav-links">
-            <a routerLink="/patterns" class="nav-link" routerLinkActive="active">
-                Patterns
-            </a>
-            <a routerLink="/yarns" class="nav-link" routerLinkActive="active">
-                Yarns
-            </a>
+            <a routerLink="/patterns" class="nav-link" routerLinkActive="active" data-testid="nav-patterns-link">Patterns</a>
+            <a routerLink="/yarns" class="nav-link" routerLinkActive="active" data-testid="nav-yarns-link">Yarns</a>
+        </div>
+        <div class="nav-auth" data-testid="nav-auth">
+            @if (auth.isLoggedIn()) {
+                @if (auth.user()?.tiny_photo_url) {
+                    <img class="user-avatar" [src]="auth.user()!.tiny_photo_url!" [alt]="auth.user()!.username" data-testid="auth-user-avatar" />
+                }
+                <span class="username" data-testid="auth-username">{{ auth.user()?.username }}</span>
+                <button class="auth-button" (click)="auth.logout()" data-testid="auth-logout-button">Log out</button>
+            } @else {
+                <button class="auth-button auth-button--login" (click)="auth.login()" data-testid="auth-login-button">Log in with Ravelry</button>
+            }
         </div>
     </nav>
 </header>

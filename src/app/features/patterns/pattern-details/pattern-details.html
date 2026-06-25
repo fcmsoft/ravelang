@@ -1,46 +1,87 @@
 @if (pattern(); as pattern) {
-<section class="pattern-details">
+<main class="pattern-details" data-testid="pattern-details-page">
     <app-carousel 
         [items]="photos()" 
         [altText]="pattern.name"
     />
-    <div class="pattern-details-info">
-        <h1>{{ pattern.name }}</h1>
-        <h3>Designed by <a class="pattern-designer"  [routerLink]="['/designers', pattern.pattern_author.id]">{{ pattern.pattern_author.name }}</a> - Published on {{ pattern.published | date }}</h3>
+    <section class="pattern-details-info">
+        <h1 data-testid="pattern-details-title">{{ pattern.name }}</h1>
+        <h3>Designed by <a class="pattern-designer"  [routerLink]="['/designers', pattern.pattern_author.id]" data-testid="pattern-designer-link">{{ pattern.pattern_author.name }}</a> - Published on {{ pattern.published | date }}</h3>
         
         <mat-chip-set role="list">
             @for (attribute of pattern.pattern_attributes; track attribute.id) {
                 <mat-chip role="listitem">{{ attribute.permalink }}</mat-chip>
             }
         </mat-chip-set>
-        <app-badge-group label="Craft and Type">
-            <app-badge [variant]="craftVariantColor()">{{ pattern.craft.name }}</app-badge>
-        </app-badge-group>
-        <app-badge-group label="Category">
-            @for (category of pattern.pattern_categories; track category.id) {
-                <app-badge [variant]="craftVariantColor()">{{ category.name }}</app-badge>
-            }
-        </app-badge-group>
-        <app-badge-group label="Yarn weight">
-            <app-badge [variant]="craftVariantColor()">{{ pattern.yarn_weight_description }}</app-badge>
-            <button class="hint-button" (click)="openYarnWeightDialog()" aria-label="View yarn weight reference table">?</button>
-        </app-badge-group>
-        <app-badge-group label="Suggested Yarns">
-            @for (pack of pattern.packs; track pack.yarn_id) {
-                <app-badge [variant]="craftVariantColor()">
-                    <a [routerLink]="['/yarns', pack.yarn_id]">{{ pack.yarn_name }}</a>
-                </app-badge>
-            }
-        </app-badge-group> 
+        <div class="details-container">
+            <div class="column">
+                <app-badge-group label="Craft and Type">
+                    <app-badge [variant]="craftVariantColor()">{{ pattern.craft.name }}</app-badge>
+                </app-badge-group>
+                <app-badge-group label="Category">
+                    @for (category of pattern.pattern_categories; track category.id) {
+                        <app-badge variant="blue">{{ category.name }}</app-badge>
+                    }
+                </app-badge-group>
+                <app-badge-group label="Statistics">
+                    <app-badge variant="teal">
+                        {{ pattern.favorites_count }} favorites
+                    </app-badge>
+                    <app-badge variant="teal">
+                        {{ pattern.projects_count }} projects
+                    </app-badge>
+                </app-badge-group> 
+                <app-badge-group label="Sizes available">
+                    <app-badge variant="purple">
+                    {{ pattern.sizes_available }}
+                    </app-badge>
+                </app-badge-group>
+                <app-badge-group label="Languages">
+                     @for (language of pattern.languages; track language.id) {
+                        <app-badge variant="purple">{{ language.name }}</app-badge>
+                    }
+                </app-badge-group>
+            </div>
+            <div class="column">
+                <app-badge-group label="Yarn weight">
+                    <app-badge [variant]="craftVariantColor()">
+                        {{ pattern.yarn_weight_description }}            
+                        <button class="hint-button" (click)="openYarnWeightDialog()" aria-label="View yarn weight reference table" data-testid="pattern-yarn-weight-hint-button">?</button>
+                    </app-badge>
+                </app-badge-group> 
+                <app-badge-group label="Gauge">
+                    <app-badge variant="purple">
+                    {{ pattern.gauge_description }}
+                    </app-badge>
+                </app-badge-group>
+                <app-badge-group label="Needle size">
+                    @for (needle of pattern.pattern_needle_sizes; track needle.id) {
+                        <app-badge variant="purple">
+                            {{ needle.name }}
+                        </app-badge>
+                    }
+                </app-badge-group>
+                <app-badge-group label="Yardage">
+                    <app-badge variant="purple">
+                    {{ pattern.yardage_description }}
+                    </app-badge>
+                </app-badge-group>
+                <app-badge-group label="Suggested Yarns">
+                    @for (pack of pattern.packs; track pack.yarn_id) {
+                        <app-badge [variant]="craftVariantColor()">
+                            <a [routerLink]="['/yarns', pack.yarn_id]" [attr.data-testid]="'pattern-suggested-yarn-link-' + pack.yarn_id">{{ pack.yarn_name }}</a>
+                        </app-badge>
+                    }
+                </app-badge-group>
+            </div>
+        </div>
 
-        <p>{{ pattern.favorites_count }} favorites</p>
-        <p>{{ pattern.projects_count }} projects</p>
-        🧶
-Yarn weight
+    </section>
+    <section class="pattern-notes" data-testid="pattern-details-notes">
+        <div [innerHTML]="pattern.notes_html"></div>
+    </section>
+</main>
 
-DK / 8 ply
-    </div>
-</section>
 } @else {
     @if (errorMessage() !== '') {
         <p class="error-message">{{ errorMessage() }}</p>

@@ -1,27 +1,50 @@
 @if (designer(); as designer) {
-<section class="designer-details">
+<section class="designer-details" data-testid="designer-details-page">
     <div class="designer-header">
-     
+        @if (designer.users[0]?.large_photo_url) {
+            <img class="designer-photo" [src]="designer.users[0].large_photo_url!" [alt]="designer.name" />
+        } @else {
+            <div class="designer-photo-placeholder">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            </div>
+        }
         <div class="designer-info">
-            <h1>{{ designer.name }}</h1>
-            @if (designer.patterns_count != null) {
-            <p class="designer-stat">{{ designer.patterns_count }} patterns</p>
+            <h1 data-testid="designer-details-title">{{ designer.name }}</h1>
+            <div class="designer-stats">
+                @if (designer.patterns_count != null) {
+                    <app-badge variant="purple">{{ designer.patterns_count }} patterns</app-badge>
+                }
+                @if (designer.knitting_pattern_count != null) {
+                    <app-badge variant="teal">{{ designer.knitting_pattern_count }} knitting</app-badge>
+                }
+                @if (designer.crochet_pattern_count != null) {
+                    <app-badge variant="teal">{{ designer.crochet_pattern_count }} crochet</app-badge>
+                }
+                @if (designer.favorites_count != null) {
+                    <app-badge variant="amber">{{ designer.favorites_count }} favorites</app-badge>
+                }
+            </div>
+
+            @if (designer.notes_html) {
+                <div class="designer-notes" [innerHTML]="designer.notes_html"></div>
+            } @else if (designer.notes) {
+                <p class="designer-notes">{{ designer.notes }}</p>
             }
-            @if (designer.favorites_count != null) {
-            <p class="designer-stat">{{ designer.favorites_count }} favorites</p>
-            }
-            @if (designer.notes) {
-            <p class="designer-notes">{{ designer.notes }}</p>
+
+            @for (user of designer.users; track user.id) {
+                @if (user.about_me_html) {
+                    <div class="designer-about" [innerHTML]="user.about_me_html"></div>
+                }
             }
         </div>
     </div>
 
     @if (designer.patterns && designer.patterns.length > 0) {
-    <div class="designer-patterns">
+    <div class="designer-patterns" data-testid="designer-patterns-section">
         <h2>Patterns</h2>
-        <div class="patterns-grid">
+        <div class="patterns-grid" data-testid="designer-patterns-grid">
             @for (pattern of designer.patterns; track pattern.id) {
-            <a class="pattern-card" [routerLink]="['/patterns', pattern.id]">
+            <a class="pattern-card" [routerLink]="['/patterns', pattern.id]" [attr.data-testid]="'designer-pattern-link-' + pattern.id">
                 @if (pattern.first_photo?.small_url) {
                 <img [src]="pattern.first_photo!.small_url" [alt]="pattern.name" class="pattern-thumb">
                 } @else {

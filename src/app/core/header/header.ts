@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Auth } from '../../shared/services/auth';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header { }
+export class Header {
+  protected readonly auth = inject(Auth);
+}

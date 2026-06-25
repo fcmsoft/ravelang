@@ -1,8 +1,8 @@
-<section id="search-container">
-    <form [formGroup]="searchForm" class="search-container">
-        <mat-form-field>
+<section id="search-container" data-testid="patterns-search-section">
+    <form [formGroup]="searchForm" class="search-container" data-testid="patterns-search-form">
+        <mat-form-field data-testid="patterns-sort-field">
             <mat-label>Sort by</mat-label>
-            <mat-select id="sortBy" formControlName="sortBy">
+            <mat-select id="sortBy" formControlName="sortBy" data-testid="patterns-sort-select">
                 <mat-option value="recently-popular">Hot right now</mat-option>
                 <mat-option value="created">New to Ravelry</mat-option>
                 <mat-option value="projects">Most projects</mat-option>
@@ -14,42 +14,42 @@
                 <mat-option value="date">Publication date</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field class="search-input">
+        <mat-form-field class="search-input" data-testid="patterns-search-field">
             <mat-label>Search patterns by name or designer</mat-label>
-            <input matInput type="search" formControlName="searchTerm" placeholder="Search patterns by name or designer...">
+            <input matInput type="search" formControlName="searchTerm" placeholder="Search patterns by name or designer..." data-testid="patterns-search-input">
         </mat-form-field>
     </form>
 </section>
 
 @if (initialLoadComplete()) {
-    <section class="pattern-list">
+    <section class="pattern-list" data-testid="patterns-list">
         @for (pattern of allPatterns(); track pattern.id) {
-            <a class="pattern-card" [routerLink]="['/patterns', pattern.id]">
+            <a class="pattern-card" [routerLink]="['/patterns', pattern.id]" [attr.data-testid]="'pattern-card-' + pattern.id">
                 <app-card [name]="pattern.name" [designer]="pattern.designer.name"
                     [imageUrl]="pattern.first_photo?.small_url"></app-card>
             </a>
         } @empty {
-            <p class="no-results">No patterns found matching your search.</p>
+            <p class="no-results" data-testid="patterns-no-results">No patterns found matching your search.</p>
         }
     </section>
 
     @if (isLoading() && allPatterns().length > 0) {
-        <div class="loading-more">
+        <div class="loading-more" data-testid="patterns-loading-more">
             <mat-spinner diameter="40"></mat-spinner>
             <p>Loading more patterns...</p>
         </div>
     }
 
     @if (!hasMore() && !isLoading() && allPatterns().length > 0) {
-        <div class="end-message">
+        <div class="end-message" data-testid="patterns-end-message">
             <p>You've reached the end! No more patterns to load.</p>
         </div>
     }
 
     <!-- Sentinel element for Intersection Observer -->
-    <div #sentinel class="sentinel"></div>
+    <div #sentinel class="sentinel" data-testid="patterns-sentinel"></div>
 } @else {
-    <div class="initial-loading">
+    <div class="initial-loading" data-testid="patterns-initial-loading">
         <mat-spinner diameter="60"></mat-spinner>
         <p>Loading patterns...</p>
     </div>

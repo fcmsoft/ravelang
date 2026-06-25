@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+.hint-button {
+  background: none;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--mat-sys-corner-full);
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 4px;
+}

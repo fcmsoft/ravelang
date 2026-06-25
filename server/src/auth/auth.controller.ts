@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, Req, Res, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, HttpCode, Post, Query, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
@@ -59,8 +59,9 @@ export class AuthController {
     }
 
     @Post('logout')
+    @HttpCode(200)
     logout(@Req() req: Request, @Res() res: Response) {
-        req.session.destroy(() => {
+        req.session?.destroy(() => {
             res.json({ success: true });
         });
     }

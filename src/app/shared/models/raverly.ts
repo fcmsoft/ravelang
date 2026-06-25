@@ -121,13 +121,36 @@ export interface RavelryYarnLink {
   yarn_company_name: string;
 }
 
-export interface RavelryYarn {
+/** Compact shape returned by the yarn search/list endpoint */
+export interface RavelryYarnSummary {
+  id: number;
+  name: string;
+  permalink: string;
+  yarn_company_id?: number;
+  yarn_company_name: string;
+  first_photo?: RavelryPhoto;
+  rating_average?: number;
+  rating_count?: number;
+  discontinued: boolean;
+  yardage: number;
+  grams: number;
+  yarn_weight: {
+    id: number;
+    name: string;
+  };
+}
+
+/** Full shape returned by the single-yarn detail endpoint (/yarns/:id.json) */
+export interface RavelryYarnDetail {
   id: number;
   name: string;
   permalink: string;
   yarn_company: {
     id: number;
     name: string;
+    permalink: string;
+    url?: string;
+    yarns_count?: number;
   };
   yarn_weight: RavelryYarnWeight;
   yarn_fibers: Array<{
@@ -209,7 +232,7 @@ export interface RavelryYarnWeight {
   id: number;
   name: string;
   ply: string;
-  wpi: number;
+  wpi: string;
   min_gauge: number;
   max_gauge: number;
   knit_gauge?: number;
@@ -252,6 +275,17 @@ export interface RavelryFavorite {
   type: string;
   created_at: string;
   comment?: string;
+  favorited?: RavelryPattern | RavelryYarnSummary;
+}
+
+export interface RavelryFavoritesResponse {
+  favorites: RavelryFavorite[];
+  paginator: {
+    page: number;
+    page_size: number;
+    page_count: number;
+    results: number;
+  };
 }
 
 // API Response Wrappers
@@ -271,9 +305,7 @@ export interface RavelryPatternResponse {
 }
 
 export interface RavelryYarnsResponse {
-  yarns: {
-    [key: string]: RavelryYarn;
-  };
+  yarns: RavelryYarnSummary[];
   paginator: {
     page: number;
     page_size: number;
@@ -288,7 +320,7 @@ export interface RavelryUserResponse {
 }
 
 export interface RavelryYarnResponse {
-  yarn: RavelryYarn;
+  yarn: RavelryYarnDetail;
 }
 
 export interface RavelryProjectsResponse {

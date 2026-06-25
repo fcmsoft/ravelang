@@ -1,1 +1,60 @@
-<p>home works!</p>
+@if (auth.isLoggedIn()) {
+  <div class="home-container">
+    <header class="section-header">
+      <p class="greeting">{{ greeting }}, {{ auth.user()?.username }}</p>
+      <h1 class="section-title">Your saved patterns</h1>
+    </header>
+
+    @if (isLoading()) {
+      <div class="loading-state" data-testid="home-loading">
+        <mat-spinner diameter="48"></mat-spinner>
+        <p>Loading your favorites...</p>
+      </div>
+    } @else if (error()) {
+      <div class="error-state" data-testid="home-error">
+        <p>{{ error() }}</p>
+      </div>
+    } @else if (favoritePatterns().length === 0) {
+      <div class="empty-state" data-testid="home-empty">
+        <div class="empty-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <h2>No favorites yet</h2>
+        <p>Head over to Ravelry to save some patterns you love.</p>
+        <a routerLink="/patterns" class="cta-button">Browse patterns</a>
+      </div>
+    } @else {
+      <div class="patterns-grid" data-testid="home-favorites-grid">
+        @for (pattern of favoritePatterns(); track pattern.id) {
+          <a [routerLink]="['/patterns', pattern.id]" class="pattern-link" [attr.data-testid]="'home-pattern-' + pattern.id">
+            <app-card
+              [name]="pattern.name"
+              [designer]="pattern.designer.name"
+              [imageUrl]="pattern.first_photo?.small_url">
+            </app-card>
+          </a>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Your Ravelry companion</p>
+      <h1 class="hero-title">Raverlang</h1>
+      <p class="hero-subtitle">
+        Browse patterns, explore yarns, and keep track of everything you love to make.
+      </p>
+      <button class="hero-cta" (click)="auth.login()">Log in with Ravelry</button>
+    </div>
+    <div class="hero-decoration" aria-hidden="true">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="200" r="160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.3"/>
+        <circle cx="200" cy="200" r="110" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 8" opacity="0.2"/>
+        <circle cx="200" cy="200" r="60" fill="currentColor" opacity="0.06"/>
+      </svg>
+    </div>
+  </div>
+}

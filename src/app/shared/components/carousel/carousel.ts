@@ -33,12 +33,15 @@ export class Carousel {
     return item ? item.medium2_url : undefined;
   });
 
+  protected readonly hasPrev = computed(() => this.currentIndex() > 0);
+  protected readonly hasNext = computed(() => this.currentIndex() < this.items().length - 1);
+
   protected next() {
-    this._step.update((s) => s + 1);
+    if (this.hasNext()) this._step.update((s) => s + 1);
   }
 
   protected prev() {
-    this._step.update((s) => s - 1);
+    if (this.hasPrev()) this._step.update((s) => s - 1);
   }
 
   protected goTo(index: number) {

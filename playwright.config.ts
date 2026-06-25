@@ -35,8 +35,21 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // API testing project
+    {
+      name: 'api-tests',
+      testDir: './tests/api-tests',
+      testMatch: '**/*.spec.ts',
+      use: {
+        baseURL: 'http://localhost:3000/api/',
+        extraHTTPHeaders: {
+          'Content-Type': 'application/json',
+        },
+      },
+    },
     {
       name: 'chromium',
+      testIgnore: ['**/api-tests/**'],
       use: { ...devices['Desktop Chrome'] },
     },
 

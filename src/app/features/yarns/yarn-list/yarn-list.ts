@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { Yarns } from '../yarns';
 import { Card } from '../../../shared/components/card/card';
-import { RavelryYarn } from '../../../shared/models/raverly';
+import { RavelryYarnSummary } from '../../../shared/models/raverly';
 
 @Component({
   selector: 'app-yarn-list',
@@ -40,7 +40,7 @@ export class YarnList implements OnDestroy {
   protected readonly currentPage = signal(1);
   protected readonly isLoading = signal(false);
   protected readonly hasMore = signal(true);
-  protected readonly allYarns = signal<RavelryYarn[]>([]);
+  protected readonly allYarns = signal<RavelryYarnSummary[]>([]);
   protected readonly initialLoadComplete = signal(false);
 
   // ViewChild for sentinel element (used for Intersection Observer)

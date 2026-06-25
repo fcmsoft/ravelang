@@ -1,9 +1,18 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req, UnauthorizedException } from '@nestjs/common';
+import { Request } from 'express';
 import { PatternsService } from './patterns.service';
 
 @Controller('patterns')
 export class PatternsController {
     constructor(private readonly patternsService: PatternsService) { }
+
+    @Get('favorites')
+    async getFavoritePatterns(@Req() req: Request) {
+        if (!req.session?.user || !req.session?.accessToken) {
+            throw new UnauthorizedException();
+        }
+        return this.patternsService.getFavoritePatterns(req.session.user.username, req.session.accessToken);
+    }
 
     @Get()
     async listPatterns(

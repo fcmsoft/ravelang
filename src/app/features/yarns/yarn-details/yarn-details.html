@@ -6,7 +6,7 @@
     />
     <section class="yarn-details-info">
         <h1 data-testid="yarn-details-title">{{ yarn.name }}</h1>
-        <h3 data-testid="yarn-details-company">By {{ yarn.yarn_company.name }}</h3>
+        <h3 data-testid="yarn-details-company">By {{ yarn.yarn_company?.name }}</h3>
 
         @if (yarn.yarn_attributes?.length) {
             <mat-chip-set role="list">
@@ -33,7 +33,7 @@
 
                 @if (yarn.yarn_provenance?.length) {
                     <app-badge-group label="Origin">
-                        @for ((origin of yarn.yarn_provenance); track origin.id) {
+                        @for (origin of yarn.yarn_provenance!; track origin.id) {
                             <app-badge variant="purple">{{ origin.country_name }} ({{ origin.phase_name }})</app-badge>
                         }
                     </app-badge-group>

@@ -9,15 +9,17 @@
 .nav-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 2.5rem;
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem 2rem;
 }
 
 .logo {
+    font-family: 'DM Serif Display', Georgia, serif;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 400;
+    letter-spacing: 0.01em;
     color: var(--mat-sys-on-primary);
     text-decoration: none;
     transition: opacity 0.2s;
@@ -76,8 +78,10 @@
 .nav-link {
     color: var(--mat-sys-on-primary);
     text-decoration: none;
-    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9375rem;
     font-weight: 500;
+    letter-spacing: 0.01em;
     padding: 0.5rem 1rem;
     border-radius: var(--mat-sys-corner-small);
     transition: background-color 0.2s;

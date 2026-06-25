@@ -1,7 +1,12 @@
 :host {
-  position: relative;
+  display: block;
   width: 100%;
   max-width: 400px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
 }
 
 .carousel-image {
@@ -20,15 +25,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border: none;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.45);
   color: white;
-  font-size: 1.75rem;
   cursor: pointer;
   transition: background 0.2s;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
 }
 
 .carousel-btn:hover {
@@ -77,9 +88,13 @@
   }
 
   .carousel-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .carousel-btn--prev {
@@ -94,11 +109,5 @@
 @media (max-width: 480px) {
   .carousel-image {
     height: 250px;
-  }
-
-  .carousel-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 1.25rem;
   }
 }

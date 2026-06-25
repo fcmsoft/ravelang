@@ -2,23 +2,25 @@
   border-radius: var(--mat-sys-corner-medium);
   overflow: hidden;
   background-color: var(--mat-sys-surface-container);
-  transition: box-shadow 0.2s;
-  width: 200px;
+  width: 220px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
   &:hover {
-    box-shadow: var(--mat-sys-level2);
+    transform: translateY(-4px);
+    box-shadow: var(--mat-sys-level3);
   }
 }
 
 .card-image {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   object-fit: cover;
   display: block;
 }
 
 .card-image-placeholder {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,25 +30,43 @@
   gap: 0.5rem;
 
   svg {
-    width: 48px;
-    height: 48px;
-    opacity: 0.5;
+    width: 44px;
+    height: 44px;
+    opacity: 0.4;
   }
 
   span {
-    font-size: 0.875rem;
-    opacity: 0.7;
+    font-size: 0.8125rem;
+    opacity: 0.6;
+    letter-spacing: 0.02em;
   }
 }
 
 .card-details {
-  padding: 0.5rem;
+  padding: 0.75rem;
 }
 
 .card-title {
+  margin: 0 0 0.2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--mat-sys-on-surface);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-designer {
   margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--mat-sys-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 480px) {
@@ -61,6 +81,6 @@
   }
 
   .card-title {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 }

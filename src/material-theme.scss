@@ -10,13 +10,26 @@ html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$magenta-palette,
-        tertiary: mat.$violet-palette,
+        primary: mat.$violet-palette,
+        tertiary: mat.$magenta-palette,
       ),
       typography: Roboto,
       density: 0,
     )
   );
+
+  // Override primary to the exact brand colour #7e42f5.
+  // The palette above sets the neutral/surface tones; these variables pin the
+  // primary roles to the requested hue.
+  --mat-sys-primary: #7e42f5;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #eddeff;
+  --mat-sys-on-primary-container: #22005d;
+  --mat-sys-primary-fixed: #eddeff;
+  --mat-sys-primary-fixed-dim: #cdb4ff;
+  --mat-sys-on-primary-fixed: #22005d;
+  --mat-sys-on-primary-fixed-variant: #5b3abf;
+  --mat-sys-inverse-primary: #cdb4ff;
 }
 
 body {

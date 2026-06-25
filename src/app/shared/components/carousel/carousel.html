@@ -1,23 +1,34 @@
 @if (items().length > 0) {
-        <button 
-            class="carousel-btn carousel-btn--prev" 
-            (click)="prev()"
-            [attr.aria-label]="'Previous image'"
-        >
-            &#8249;
-        </button>
+    <div class="carousel-wrapper">
+        @if (hasPrev()) {
+            <button
+                class="carousel-btn carousel-btn--prev"
+                (click)="prev()"
+                aria-label="Previous image"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+            </button>
+        }
         <img
             class="carousel-image"
             [src]="currentImageUrl()"
             [alt]="altText()"
         />
-        <button 
-            class="carousel-btn carousel-btn--next" 
-            (click)="next()"
-            [attr.aria-label]="'Next image'"
-        >
-            &#8250;
-        </button>
+        @if (hasNext()) {
+            <button
+                class="carousel-btn carousel-btn--next"
+                (click)="next()"
+                aria-label="Next image"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+            </button>
+        }
         @if (items().length > 1) {
             <div class="carousel-dots">
                 @for (item of items(); track $index; let i = $index) {
@@ -30,4 +41,5 @@
                 }
             </div>
         }
+    </div>
 }

@@ -11,7 +11,7 @@
     <section class="yarn-list" data-testid="yarns-list">
         @for (yarn of allYarns(); track yarn.id) {
             <a class="yarn-card" [routerLink]="['/yarns', yarn.id]" [attr.data-testid]="'yarn-card-' + yarn.id">
-                <app-card [name]="yarn.name" [designer]="yarn.yarn_company.name || 'Unknown Company'"
+                <app-card [name]="yarn.name" [designer]="yarn.yarn_company_name || 'Unknown Company'"
                     [imageUrl]="yarn.first_photo?.small_url"></app-card>
             </a>
         } @empty {

@@ -25,4 +25,10 @@ export class PatternsService {
     async getPattern(id: string) {
         return this.ravelryApi.get(`/patterns/${id}.json`);
     }
+
+    async getFavoritePatterns(username: string, accessToken: string) {
+        return this.ravelryApi.get(`/people/${username}/favorites/list.json`, {
+            types: 'pattern',
+        }, accessToken);
+    }
 }
